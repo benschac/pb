@@ -1,20 +1,9 @@
 import "./App.css";
 import Ballot from "./Components/Ballot/Ballot";
-import api from "../src/Api/Api";
-import { useEffect, useState } from "react";
-import { BallotType } from "../api";
+import { useGetBallots } from "./Hooks/useGetBallots";
 
 const App: React.FC = () => {
-  const [ballots, setBallots] = useState<BallotType | undefined>();
-  useEffect(() => {
-    async function getBallots() {
-      const ballots = await api.getBallotData();
-      setBallots(ballots);
-      return ballots;
-    }
-
-    getBallots();
-  }, []);
+  const { ballots } = useGetBallots();
   return (
     <div>
       <header>

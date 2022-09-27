@@ -1,25 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { BallotType } from "../../api";
-import api from "../Api/Api";
+import { useGetBallots } from "../Hooks/useGetBallots";
 
 const MainLayout: React.FC = () => {
-  const [ballots, setBallots] = useState<BallotType | undefined>();
-  const [category, setCategory] = useState<
-    BallotType["items"][number]["title"][] | undefined
-  >();
-  useEffect(() => {
-    async function getBallots() {
-      const ballots = await api.getBallotData();
-      const cat = ballots?.items.map((ballot) => ballot.title);
-      setCategory(cat);
-      setBallots(ballots);
-      return ballots;
-    }
-
-    getBallots();
-  }, []);
-
+  const { categories } = useGetBallots();
   return (
     <div>
       <nav>
@@ -27,7 +11,7 @@ const MainLayout: React.FC = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {category?.map(
+          {categories?.map(
             (cat) =>
               (
                 <li key={cat}>

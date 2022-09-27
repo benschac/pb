@@ -4,16 +4,24 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NoMatch from "./Pages/NoMatch";
+import MainLayout from "./Layouts/MainLayout";
+import Category from "./Pages/Category";
 
 const container = document.getElementById("root") as HTMLElement;
-
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<App />} />
+          <Route path="/category/:type" element={<Category />} />
+          <Route path="*" element={<NoMatch />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );

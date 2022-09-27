@@ -1,10 +1,9 @@
 import groupBy from "lodash.groupby";
-import React from "react";
 import { useParams } from "react-router-dom";
 import { BallotType } from "../../api";
 import { useGetBallots } from "../Hooks/useGetBallots";
 
-type BallotId = BallotType["items"][number]["id"];
+export type BallotId = BallotType["items"][number]["id"];
 
 const Category = () => {
   const params = useParams<{ id: BallotId }>();

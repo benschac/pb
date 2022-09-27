@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BallotType } from "../../api";
 import api from "../Api/Api";
 
-type BallotCategories = BallotType["items"][number]["title"][];
+export type BallotCategories = BallotType["items"][number]["title"][];
 
 export const useGetBallots = () => {
   const [ballots, setBallots] = useState<BallotType | undefined>();

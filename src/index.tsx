@@ -18,7 +18,10 @@ root.render(
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<App />} />
-          <Route path="/category/:type" element={<Category />} />
+
+          <Route path="/category">
+            <Route path=":id" element={<Category />} />
+          </Route>
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

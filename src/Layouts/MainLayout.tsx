@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import { useGetBallots } from "../Hooks/useGetBallots";
 
 const MainLayout: React.FC = () => {
-  const { categories } = useGetBallots();
+  const { ballots } = useGetBallots();
   return (
     <div>
       <nav>
@@ -11,11 +11,11 @@ const MainLayout: React.FC = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {categories?.map(
+          {ballots?.items.map(
             (cat) =>
               (
-                <li key={cat}>
-                  <Link to={`/category/${cat}`}>{cat}</Link>
+                <li key={cat.id}>
+                  <Link to={`/category/${cat.id}`}>{cat.title}</Link>
                 </li>
               ) ?? "loading"
           )}

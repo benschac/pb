@@ -1,5 +1,4 @@
-const express = require("express");
-
+import express, { Response } from "express";
 const app = express();
 
 const port = process.env.PORT || 8080;
@@ -258,14 +257,16 @@ const generateBallotData = () => {
         title: "Best Visual Effects",
       },
     ],
-  };
+  } as const;
 };
 
 const ballotData = generateBallotData();
 
-app.get("/api/getBallotData", (req, res) => {
+export type BallotType = ReturnType<() => typeof ballotData>;
+
+app.get("/api/getBallotData", (_, res: Response<typeof ballotData>) => {
   res.json(ballotData);
-  console.log("Sent navigation categories and list of nominees");
+  console.info("Sent navigation categories and list of nominees");
 });
 
-console.log("App is listening on port " + port);
+console.info(`App is listening on port ${port}`);

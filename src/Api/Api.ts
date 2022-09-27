@@ -1,8 +1,10 @@
+import { BallotType } from "../../api/index";
 const api = {
-  getBallotData() {
-    return fetch("/api/getBallotData").then((res) => {
-      return res.json();
-    });
+  getBallotData: async () => {
+    const response = await fetch("/api/getBallotData");
+    const json: BallotType = await response.json();
+
+    return json;
   },
 };
 

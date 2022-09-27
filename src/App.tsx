@@ -26,7 +26,18 @@ const App: React.FC = () => {
         />
       </header>
 
-      {JSON.stringify(ballots, null, 2)}
+      <ul>
+        {ballots?.items.map((ballot) => (
+          <li key={ballot.id}>
+            {ballot.items.map((item) => (
+              <div key={item.id}>
+                <img alt={item.id} src={item.photoUrL} />
+                {item.title}
+              </div>
+            ))}
+          </li>
+        )) ?? "loading"}
+      </ul>
       <Ballot />
     </div>
   );

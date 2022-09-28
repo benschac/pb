@@ -10,7 +10,7 @@ const Category = () => {
   const params = useParams<{ id: BallotId }>();
   const { id } = params;
   const { ballots } = useGetBallots();
-  const setCategorySelection = userStore((state) => state.setCategorySelection);
+  const setSelectedFilm = userStore((state) => state.setSelectedFilm);
   const categoryById = groupBy(ballots?.items, (ballot) => ballot.id);
   const title = ballots?.items.find((ballot) => ballot.id === id)?.title;
 
@@ -19,15 +19,14 @@ const Category = () => {
   }
 
   return (
-    <div>
-      {title}
+    <>
+      <h1>{title}</h1>
       {categoryById[id]?.map((category) => (
         <div key={category.id}>
           {category.items.map((i) => (
             <div
               onClick={() => {
-                console.log("hi");
-                setCategorySelection(id, i.id);
+                setSelectedFilm(id, i.id);
               }}
               key={i.id}
             >
@@ -38,7 +37,7 @@ const Category = () => {
           {category.title}
         </div>
       ))}
-    </div>
+    </>
   );
 };
 

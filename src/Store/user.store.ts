@@ -2,18 +2,15 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import { BallotType } from "../../api";
 
-type CategorySelection = BallotType["items"][number]["id"];
+type FilmCategory = BallotType["items"][number]["id"];
 
 export const userStore = create(
-  combine({} as Record<CategorySelection, string>, (set, get) => {
+  combine({} as Record<FilmCategory, string>, (set, get) => {
     return {
-      setCategorySelection: (
-        category: CategorySelection,
-        selection: string
-      ) => {
+      setSelectedFilm: (category: FilmCategory, selection: string) => {
         set({ [category]: selection });
       },
-      getSelection: (category: CategorySelection) => {
+      getSelectedFilm: (category: FilmCategory) => {
         if (get()?.[category]) {
           return get()[category];
         }

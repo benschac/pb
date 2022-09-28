@@ -5,7 +5,7 @@ import { userStore } from "./Store/user.store";
 
 const App: React.FC = () => {
   const { ballots } = useGetBallots();
-  const category = userStore((state) => state);
+  const selectedFilms = userStore((state) => state);
   return (
     <div>
       <h1>Movie Ballot Vote</h1>
@@ -18,7 +18,7 @@ const App: React.FC = () => {
               </h2>
               {cat.items.map((item) => (
                 <div key={item.id}>
-                  {category?.[cat.id] === item.id ? (
+                  {selectedFilms?.[cat.id] === item.id ? (
                     <>
                       <img alt={item.id} src={item.photoUrL} />
                       <h3>{item.title}</h3>
@@ -26,7 +26,7 @@ const App: React.FC = () => {
                   ) : null}
                 </div>
               ))}
-              {category?.[cat.id] === undefined && "Please select a movie"}
+              {selectedFilms?.[cat.id] === undefined && "Please select a movie"}
             </div>
           ) ?? "loading"
       )}

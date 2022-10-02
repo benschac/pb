@@ -2,7 +2,7 @@ import create from "zustand";
 import { combine } from "zustand/middleware";
 import { BallotType } from "../../api";
 
-type FilmCategory = BallotType["items"][number]["id"];
+export type FilmCategory = BallotType["items"][number]["id"];
 
 export const userStore = create(
   combine({} as Record<FilmCategory, string>, (set, get) => {

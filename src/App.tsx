@@ -1,3 +1,5 @@
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import "./App.css";
 import { useGetBallots } from "./Hooks/useGetBallots";
@@ -15,26 +17,41 @@ const App: React.FC = () => {
 
   return (
     <div className="grid">
-      {categoryIds?.map((id) => {
+      {categoryIds?.map((id, idx) => {
         const category = categoryById[id];
-        return category?.map((ballot) => {
-          return ballot.items.map((item) => {
-            if (item.id === getSelectedFilm(id)) {
-              return (
-                <div key={item.id}>
-                  <img
-                    style={{
-                      width: 200,
-                      height: 100,
-                    }}
-                    src={item.photoUrL}
-                  />
-                  {item.title}
-                </div>
-              );
-            }
-          });
-        });
+        const isSelected = getSelectedFilm(id);
+
+        return isSelected ? (
+          category?.map((ballot) => {
+            return ballot.items.map((item) => {
+              if (item.id === getSelectedFilm(id)) {
+                return (
+                  <div className="category-title" key={item.id}>
+                    <Link to={`/${id}`}>
+                      <h3>
+                        {categoryById[id].find((item) => item.id === id)?.title}
+                        <span style={{ paddingLeft: 4 }}>
+                          {<FontAwesomeIcon icon={faCheck} />}
+                        </span>
+                      </h3>
+                    </Link>
+                    <img src={item.photoUrL} />
+                    {item.title}
+                  </div>
+                );
+              }
+            });
+          })
+        ) : (
+          <div className="category-title">
+            <h3>
+              <Link to={`/${id}`}>
+                {categoryById[id].find((item) => item.id === id)?.title}
+              </Link>
+            </h3>
+            <p>Not Selected</p>
+          </div>
+        );
       })}
     </div>
   );

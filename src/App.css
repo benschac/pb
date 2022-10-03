@@ -8,10 +8,25 @@
 .title {
   display: flex;
   gap: 4px;
+  padding: 0 12px;
+  align-items: center;
+}
+
+.title h1 {
+  flex-grow: 1;
+}
+
+.category-title a {
+  text-decoration: none;
+}
+
+.category-title div {
+  display: inline;
 }
 
 .grid {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
   display: grid;
   gap: 0.5rem;
   padding: 12px;

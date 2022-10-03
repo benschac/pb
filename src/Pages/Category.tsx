@@ -1,5 +1,5 @@
 import groupBy from "lodash.groupby";
-import { useParams } from "react-router-dom";
+import { useParams, useRoutes, useNavigate } from "react-router-dom";
 import { BallotType } from "../../api";
 import { useGetBallots } from "../Hooks/useGetBallots";
 import { FilmCategory, userStore } from "../Store/user.store";
@@ -9,6 +9,7 @@ const Category = () => {
   const params = useParams<{ id: BallotId }>();
   const { id } = params;
   const { ballots, categoryIds } = useGetBallots();
+  const navigate = useNavigate();
   const categoryById = groupBy(ballots?.items, (ballot) => ballot.id);
   const title = ballots?.items.find((ballot) => ballot.id === id)?.title;
   const category = categoryById[id ?? ""];
@@ -30,8 +31,8 @@ const Category = () => {
           return (
             <div
               onClick={() => {
-                console.log(id, item.id);
                 setSelectedFilmByCategory(id, item.id);
+                navigate("/");
               }}
               key={item.id}
             >

@@ -1,22 +1,23 @@
-import { useEffect, useState, useMemo, memo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { BallotType } from "../../api";
 import api from "../Api/Api";
 import { FilmCategory, userStore } from "../Store/user.store";
 import groupBy from "lodash.groupby";
+import { BallotId } from "../Pages/Category";
 
 export type BallotCategories = BallotType["items"][number]["title"][];
 
-export const useGetBallots = () => {
+export const useGetBallots = (categoryId?: FilmCategory) => {
   const [ballots, setBallots] = useState<BallotType | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [titles, setTitles] = useState<BallotCategories | undefined>();
   const [ids, setCategoryIds] = useState<FilmCategory[] | undefined>();
-  const { initFilmCategories, categories, getSelectedFilmsByCategoryCount } =
-    userStore((state) => ({
-      initFilmCategories: state.initSelectedFilmsByCategory,
-      getSelectedFilmsByCategoryCount: state.getSelectedFilmsByCategoryCount,
-      categories: state.categories,
-    }));
+  const { initSelectedFilmsByCategory, categories } = userStore(
+    ({ initSelectedFilmsByCategory, categories }) => ({
+      initSelectedFilmsByCategory,
+      categories,
+    })
+  );
 
   useEffect(() => {
     async function getBallots() {
@@ -29,16 +30,17 @@ export const useGetBallots = () => {
           return prev;
         }, {} as Record<FilmCategory[number], string | undefined>);
 
-        initFilmCategories(initCategorySelection);
+        initSelectedFilmsByCategory(initCategorySelection);
         setTitles(categoryTitles);
         setCategoryIds(categoryIds);
         setBallots(ballots);
       } catch (e: unknown) {
-        e instanceof Error && setError(e.message);
+        e instanceof Error && console.log(e.message);
       }
     }
 
     getBallots();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const totalCategories = titles?.length ?? 0;
@@ -47,12 +49,25 @@ export const useGetBallots = () => {
     return groupBy(ballots?.items, (ballot) => ballot.id);
   }, [ballots?.items]);
 
+  const getTitle = (id: BallotId | undefined) => {
+    if (id) {
+      return categoryById[id]?.find((item) => item.id === id)?.title;
+    }
+    return "";
+  };
+
+  let nominees;
+  if (categoryId) {
+    [nominees] = categoryById[categoryId ?? "best-actor"] ?? [];
+  }
+
   return {
     totalCategories,
     ballots,
-    error,
     categoryIds: ids,
     titles,
     categoryById,
+    nominees: nominees?.items,
+    getTitle,
   };
 };

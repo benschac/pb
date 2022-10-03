@@ -1,20 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { useGetBallots } from "../Hooks/useGetBallots";
+import { BallotCategories, useGetBallots } from "../Hooks/useGetBallots";
 import { FilmCategory, userStore } from "../Store/user.store";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
+import { BallotId } from "../Pages/Category";
 
 const MainLayout = () => {
-  const { categoryIds, titles, totalCategories, categoryById } =
+  const { categoryIds, titles, totalCategories, categoryById, getTitle } =
     useGetBallots();
-  const { getSelectedFilmsByCategoryCount, categories, getSelectedFilm } =
-    userStore((state) => ({
-      getSelectedFilmsByCategoryCount: state.getSelectedFilmsByCategoryCount,
-      getSelectedFilm: state.getSelectedFilm,
-      categories: state.categories,
-    }));
+  const { getSelectedFilmsByCategoryCount } = userStore(
+    ({ getSelectedFilmsByCategoryCount }) => ({
+      getSelectedFilmsByCategoryCount,
+    })
+  );
   const { id } = useParams<{ id: FilmCategory }>();
   const customStyles = {
     content: {
@@ -40,7 +40,7 @@ const MainLayout = () => {
   return (
     <>
       <header className="title">
-        <h1>{id && categoryById[id]?.find((item) => item.id === id)?.title}</h1>
+        <h1>{getTitle(id)}</h1>
         {id && (
           <Link to="/">
             <FontAwesomeIcon
@@ -74,8 +74,6 @@ const MainLayout = () => {
       <ReactModal style={customStyles} isOpen={modalIsOpen}>
         <div onClick={closeModal}>
           {categoryIds?.map((categoryId, idx) => {
-            const selected = categories[categoryId];
-            const selectedKey = categories[categoryId];
             const nominees = [...categoryById[categoryId][0].items];
             const nomineeTitle = nominees.find((nominee) => nominee.id)?.title;
             return (

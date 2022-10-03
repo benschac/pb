@@ -10,7 +10,8 @@ export type BallotId = BallotType["items"][number]["id"];
 const Category = () => {
   const params = useParams<{ id: BallotId }>();
   const { id } = params;
-  const { ballots } = useGetBallots();
+
+  const { ballots, nominees } = useGetBallots(id);
   const navigate = useNavigate();
   const categoryById = groupBy(ballots?.items, (ballot) => ballot.id);
   const category = categoryById[id ?? ""];
@@ -27,30 +28,28 @@ const Category = () => {
 
   return (
     <div className="grid">
-      {category?.map((ballot) => {
-        return ballot.items.map((item) => {
-          return (
-            <div
-              className={
-                categories[id] === item.id ? "ballot selected" : "ballot"
-              }
-              onClick={() => {
-                setSelectedFilmByCategory(id, item.id);
-                navigate("/");
-              }}
-              key={item.id}
-            >
-              <img src={item.photoUrL} />
-              <span>
-                {categories[id] === item.id && (
-                  <FontAwesomeIcon icon={faCheck} />
-                )}
-                {item.title}
-              </span>
-            </div>
-          );
-        });
-      })}
+      {nominees?.map((nominee) => {
+        return (
+          <div
+            className={
+              categories[id] === nominee.id ? "ballot selected" : "ballot"
+            }
+            onClick={() => {
+              setSelectedFilmByCategory(id, nominee.id);
+              navigate("/");
+            }}
+            key={nominee.id}
+          >
+            <img src={nominee.photoUrL} />
+            <span>
+              {categories[id] === nominee.id && (
+                <FontAwesomeIcon icon={faCheck} />
+              )}
+              {nominee.title}
+            </span>
+          </div>
+        );
+      }) ?? []}
     </div>
   );
 };

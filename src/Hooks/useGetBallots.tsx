@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { BallotType } from "../../api";
 import api from "../Api/Api";
 import { FilmCategory, userStore } from "../Store/user.store";
@@ -9,7 +9,6 @@ export type BallotCategories = BallotType["items"][number]["title"][];
 
 export const useGetBallots = (categoryId?: FilmCategory) => {
   const [ballots, setBallots] = useState<BallotType | undefined>();
-  const [error, setError] = useState<string | undefined>();
   const [titles, setTitles] = useState<BallotCategories | undefined>();
   const [ids, setCategoryIds] = useState<FilmCategory[] | undefined>();
   const { initSelectedFilmsByCategory, categories } = userStore(
@@ -45,9 +44,7 @@ export const useGetBallots = (categoryId?: FilmCategory) => {
 
   const totalCategories = titles?.length ?? 0;
 
-  const categoryById = useMemo(() => {
-    return groupBy(ballots?.items, (ballot) => ballot.id);
-  }, [ballots?.items]);
+  const categoryById = groupBy(ballots?.items, (ballot) => ballot.id);
 
   const getTitle = (id: BallotId | undefined) => {
     if (id) {

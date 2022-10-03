@@ -1,10 +1,10 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import groupBy from "lodash.groupby";
-import { useParams, useRoutes, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { BallotType } from "../../api";
 import { useGetBallots } from "../Hooks/useGetBallots";
-import { FilmCategory, userStore } from "../Store/user.store";
+import { userStore } from "../Store/user.store";
 
 export type BallotId = BallotType["items"][number]["id"];
 const Category = () => {

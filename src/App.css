@@ -1,8 +1,6 @@
 .container {
   row-gap: 0.5rem;
   height: 100vh;
-  /* display: flex; */
-  /* justify-content: center; */
 }
 
 .title {
@@ -22,6 +20,10 @@
 
 .category-title div {
   display: inline;
+}
+
+a {
+  text-decoration: none;
 }
 
 .grid {

@@ -1,11 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { BallotCategories, useGetBallots } from "../Hooks/useGetBallots";
+import { useGetBallots } from "../Hooks/useGetBallots";
 import { FilmCategory, userStore } from "../Store/user.store";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
-import { BallotId } from "../Pages/Category";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MainLayout = () => {
   const { categoryIds, titles, totalCategories, categoryById, getTitle } =
@@ -65,9 +65,20 @@ const MainLayout = () => {
               position: "fixed",
               bottom: 20,
               right: 20,
+              cursor: "pointer",
+              background: "grey",
+              color: "white",
+              fontSize: 16,
+              width: 50,
+              height: 50,
+              borderRadius: "50%",
+              border: "3px solid black",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            Submit
+            <FontAwesomeIcon icon={faPaperPlane} />
           </div>
         )}
       </footer>

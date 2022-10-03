@@ -2,42 +2,46 @@ import groupBy from "lodash.groupby";
 import { useParams } from "react-router-dom";
 import { BallotType } from "../../api";
 import { useGetBallots } from "../Hooks/useGetBallots";
-import { userStore } from "../Store/user.store";
+import { FilmCategory, userStore } from "../Store/user.store";
 
 export type BallotId = BallotType["items"][number]["id"];
-
 const Category = () => {
   const params = useParams<{ id: BallotId }>();
   const { id } = params;
-  const { ballots } = useGetBallots();
-  const setSelectedFilm = userStore((state) => state.setSelectedFilm);
+  const { ballots, categoryIds } = useGetBallots();
   const categoryById = groupBy(ballots?.items, (ballot) => ballot.id);
   const title = ballots?.items.find((ballot) => ballot.id === id)?.title;
+  const category = categoryById[id ?? ""];
+  const { setSelectedFilmByCategory, categories } = userStore(
+    ({ categories, setSelectedFilmByCategory }) => ({
+      setSelectedFilmByCategory,
+      categories,
+    })
+  );
 
   if (!id) {
-    return <div>loading</div>;
+    return <div>loading...</div>;
   }
 
   return (
-    <>
-      <h1>{title}</h1>
-      {categoryById[id]?.map((category) => (
-        <div key={category.id}>
-          {category.items.map((i) => (
+    <div className="grid">
+      {category?.map((ballot) => {
+        return ballot.items.map((item) => {
+          return (
             <div
               onClick={() => {
-                setSelectedFilm(id, i.id);
+                console.log(id, item.id);
+                setSelectedFilmByCategory(id, item.id);
               }}
-              key={i.id}
+              key={item.id}
             >
-              <img alt={i.id} src={i.photoUrL} />
-              {i.title}
+              <img src={item.photoUrL} />
+              {item.title}
             </div>
-          ))}
-          {category.title}
-        </div>
-      ))}
-    </>
+          );
+        });
+      })}
+    </div>
   );
 };
 

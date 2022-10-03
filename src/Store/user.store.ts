@@ -5,16 +5,36 @@ import { BallotType } from "../../api";
 export type FilmCategory = BallotType["items"][number]["id"];
 
 export const userStore = create(
-  combine({} as Record<FilmCategory, string>, (set, get) => {
-    return {
-      setSelectedFilm: (category: FilmCategory, selection: string) => {
-        set({ [category]: selection });
-      },
-      getSelectedFilm: (category: FilmCategory) => {
-        if (get()?.[category]) {
-          return get()[category];
-        }
-      },
-    };
-  })
+  combine(
+    {
+      categories: {} as Record<FilmCategory, string | undefined>,
+    },
+    (set, get) => {
+      return {
+        initSelectedFilmsByCategory: (
+          categories: Record<FilmCategory, string | undefined>
+        ) => {
+          set({ categories });
+        },
+        getSelectedFilmsByCategoryCount: () => {
+          return Object.values(get().categories).filter(Boolean).length;
+        },
+        setSelectedFilmByCategory: (
+          category: FilmCategory,
+          selection: string
+        ) => {
+          set((state) => ({
+            ...state,
+            categories: {
+              ...get().categories,
+              [category]: selection,
+            },
+          }));
+        },
+        getSelectedFilm: (category: FilmCategory) => {
+          return get().categories[category];
+        },
+      };
+    }
+  )
 );

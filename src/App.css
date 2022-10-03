@@ -1,0 +1,18 @@
+.container {
+  row-gap: 0.5rem;
+  height: 100vh;
+  /* display: flex; */
+  /* justify-content: center; */
+}
+
+.title {
+  display: flex;
+  gap: 4px;
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: grid;
+  gap: 0.5rem;
+  padding: 12px;
+}

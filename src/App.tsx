@@ -4,32 +4,38 @@ import { useGetBallots } from "./Hooks/useGetBallots";
 import { userStore } from "./Store/user.store";
 
 const App: React.FC = () => {
-  const { ballots } = useGetBallots();
-  const selectedFilms = userStore((state) => state);
+  const { totalCategories, categoryIds, categoryById, titles, ballots } =
+    useGetBallots();
+  const { getSelectedFilmsByCategoryCount, categories, getSelectedFilm } =
+    userStore((state) => ({
+      getSelectedFilmsByCategoryCount: state.getSelectedFilmsByCategoryCount,
+      getSelectedFilm: state.getSelectedFilm,
+      categories: state.categories,
+    }));
+
   return (
-    <div>
-      <h1>Movie Ballot Vote</h1>
-      {ballots?.items.map(
-        (cat) =>
-          (
-            <div key={cat.id}>
-              <h2>
-                <Link to={`/category/${cat.id}`}>{cat.title}</Link>
-              </h2>
-              {cat.items.map((item) => (
+    <div className="grid">
+      {categoryIds?.map((id) => {
+        const category = categoryById[id];
+        return category?.map((ballot) => {
+          return ballot.items.map((item) => {
+            if (item.id === getSelectedFilm(id)) {
+              return (
                 <div key={item.id}>
-                  {selectedFilms?.[cat.id] === item.id ? (
-                    <>
-                      <img alt={item.id} src={item.photoUrL} />
-                      <h3>{item.title}</h3>
-                    </>
-                  ) : null}
+                  <img
+                    style={{
+                      width: 200,
+                      height: 100,
+                    }}
+                    src={item.photoUrL}
+                  />
+                  {item.title}
                 </div>
-              ))}
-              {selectedFilms?.[cat.id] === undefined && "Please select a movie"}
-            </div>
-          ) ?? "loading"
-      )}
+              );
+            }
+          });
+        });
+      })}
     </div>
   );
 };

@@ -1,3 +1,5 @@
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import groupBy from "lodash.groupby";
 import { useParams, useRoutes, useNavigate } from "react-router-dom";
 import { BallotType } from "../../api";
@@ -8,10 +10,9 @@ export type BallotId = BallotType["items"][number]["id"];
 const Category = () => {
   const params = useParams<{ id: BallotId }>();
   const { id } = params;
-  const { ballots, categoryIds } = useGetBallots();
+  const { ballots } = useGetBallots();
   const navigate = useNavigate();
   const categoryById = groupBy(ballots?.items, (ballot) => ballot.id);
-  const title = ballots?.items.find((ballot) => ballot.id === id)?.title;
   const category = categoryById[id ?? ""];
   const { setSelectedFilmByCategory, categories } = userStore(
     ({ categories, setSelectedFilmByCategory }) => ({
@@ -30,6 +31,9 @@ const Category = () => {
         return ballot.items.map((item) => {
           return (
             <div
+              className={
+                categories[id] === item.id ? "ballot selected" : "ballot"
+              }
               onClick={() => {
                 setSelectedFilmByCategory(id, item.id);
                 navigate("/");
@@ -37,7 +41,12 @@ const Category = () => {
               key={item.id}
             >
               <img src={item.photoUrL} />
-              {item.title}
+              <span>
+                {categories[id] === item.id && (
+                  <FontAwesomeIcon icon={faCheck} />
+                )}
+                {item.title}
+              </span>
             </div>
           );
         });

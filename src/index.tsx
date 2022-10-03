@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Router from "./Router";
+import "@fontsource/chivo";
 
 const container = document.getElementById("root") as HTMLElement;
 const root = ReactDOM.createRoot(container);

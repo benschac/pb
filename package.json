@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "dependencies": {
+    "@fontsource/chivo": "^4.5.9",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -20,6 +21,7 @@
     "nodemon": "^2.0.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.15.1",
     "react-router-dom": "^6.4.1",
     "react-scripts": "4.0.1",
     "typescript": "^4.8.3",
@@ -57,6 +59,7 @@
     "@types/express": "^4.17.14",
     "@types/lodash.groupby": "^4.6.7",
     "@types/lodash.isempty": "^4.4.7",
+    "@types/react-modal": "^3.13.1",
     "ts-node": "^10.9.1"
   }
 }

@@ -6,18 +6,16 @@ import { useGetBallots } from "./Hooks/useGetBallots";
 import { userStore } from "./Store/user.store";
 
 const App: React.FC = () => {
-  const { totalCategories, categoryIds, categoryById, titles, ballots } =
-    useGetBallots();
-  const { getSelectedFilmsByCategoryCount, categories, getSelectedFilm } =
-    userStore((state) => ({
-      getSelectedFilmsByCategoryCount: state.getSelectedFilmsByCategoryCount,
-      getSelectedFilm: state.getSelectedFilm,
-      categories: state.categories,
-    }));
+  const { categoryIds, categoryById } = useGetBallots();
+  const { getSelectedFilm } = userStore((state) => ({
+    getSelectedFilmsByCategoryCount: state.getSelectedFilmsByCategoryCount,
+    getSelectedFilm: state.getSelectedFilm,
+    categories: state.categories,
+  }));
 
   return (
     <div className="grid">
-      {categoryIds?.map((id, idx) => {
+      {categoryIds?.map((id) => {
         const category = categoryById[id];
         const isSelected = getSelectedFilm(id);
 
@@ -26,7 +24,10 @@ const App: React.FC = () => {
             return ballot.items.map((item) => {
               if (item.id === getSelectedFilm(id)) {
                 return (
-                  <div className="category-title" key={item.id}>
+                  <div
+                    className="category-title"
+                    key={`${item.id}-${item.title}`}
+                  >
                     <Link to={`/${id}`}>
                       <h3>
                         {categoryById[id].find((item) => item.id === id)?.title}
@@ -35,11 +36,12 @@ const App: React.FC = () => {
                         </span>
                       </h3>
                     </Link>
-                    <img src={item.photoUrL} />
+                    <img alt={item.title} src={item.photoUrL} />
                     {item.title}
                   </div>
                 );
               }
+              return null;
             });
           })
         ) : (

@@ -31,3 +31,28 @@
   gap: 0.5rem;
   padding: 12px;
 }
+
+.ballot {
+  cursor: pointer;
+  flex-direction: column;
+  text-align: center;
+  display: flex;
+}
+
+.ballot span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: max-content;
+  flex-grow: 1;
+}
+
+.ballot span svg {
+  padding-right: 4px;
+}
+
+.ballot.selected {
+  background: grey;
+  color: white;
+  padding-bottom: 0;
+}
